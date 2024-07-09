@@ -422,6 +422,8 @@ public class PlayerController : MonoBehaviour
     
     public void FLeft()
     {
+        if (!fLeft) return;
+
         var trackRotation = (Quaternion.FromToRotation(-this.transform.forward, this.transform.up) * this.transform.rotation).eulerAngles * Mathf.Deg2Rad;
         var trackPosition = new Vector3(fLeft.position.x, chestRaycast.position.y + trackOffset, fLeft.position.z);
 
@@ -444,6 +446,8 @@ public class PlayerController : MonoBehaviour
 
     public void FRight()
     {
+        if (!fRight) return;
+
         var trackRotation = (Quaternion.FromToRotation(-this.transform.forward, this.transform.up) * this.transform.rotation).eulerAngles * Mathf.Deg2Rad;
         var trackPosition = new Vector3(fRight.position.x, chestRaycast.position.y + trackOffset, fRight.position.z);
 
@@ -466,6 +470,8 @@ public class PlayerController : MonoBehaviour
 
     public void RLeft()
     {
+        if (!rLeft) return;
+
         var trackRotation = (Quaternion.FromToRotation(-this.transform.forward, this.transform.up) * this.transform.rotation).eulerAngles * Mathf.Deg2Rad;
         var trackPosition = new Vector3(rLeft.position.x, hipRaycast.position.y + trackOffset, rLeft.position.z);
 
@@ -491,6 +497,8 @@ public class PlayerController : MonoBehaviour
 
     public void RRight()
     {
+        if (!rRight) return;
+
         var trackRotation = (Quaternion.FromToRotation(-this.transform.forward, this.transform.up) * this.transform.rotation).eulerAngles * Mathf.Deg2Rad;
         var trackPosition = new Vector3(rRight.position.x, hipRaycast.position.y + trackOffset, rRight.position.z);
 
