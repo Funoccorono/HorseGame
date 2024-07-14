@@ -24,6 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: b7839dad95683814aa64166edc107ae2, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
+  - _NORMALMAP
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _FLIPBOOKBLENDING_OFF
@@ -44,11 +45,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: d593cd1b86f55c740a46a81c5f595a12, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7412ee817f7cb454d9cb7ebe12f453f7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1033bb1b95427944aa1de201624d7284, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -152,10 +153,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.1603773, g: 0.06581517, b: 0.06581517, a: 0.50980395}
+    - _BaseColor: {r: 0.16037723, g: 0.06581513, b: 0.06581513, a: 0.64705884}
     - _BaseColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.16037726, g: 0.06581515, b: 0.06581515, a: 0.50980395}
+    - _Color: {r: 0.1603772, g: 0.065815106, b: 0.065815106, a: 0.64705884}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

@@ -3,6 +3,7 @@ using UnityEngine.InputSystem.HID;
 using FIMSpace.FSpine;
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -88,8 +89,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        originalValue = spineAnimator.AngleLimit;
+        if (spineAnimator) originalValue = spineAnimator.AngleLimit;
         psMain = tracks.main;
+
+        SetGait();
     }
 
     // Update is called once per frame
@@ -196,16 +199,19 @@ public class PlayerController : MonoBehaviour
         else animator.SetBool("IsTurningRight", false);
 
         //Setting AngleLimit gradually to 0 when not moving forward
-        if (movementState == 0 && spineAnimator.AngleLimit != 0)
+        if (spineAnimator)
         {
-            spineAnimator.AngleLimit -= 0.1f;
-            spineAnimator.AngleLimit = Mathf.Clamp(spineAnimator.AngleLimit, 0, originalValue);
-        }
+            if (movementState == 0 && spineAnimator.AngleLimit != 0)
+            {
+                spineAnimator.AngleLimit -= 0.1f;
+                spineAnimator.AngleLimit = Mathf.Clamp(spineAnimator.AngleLimit, 0, originalValue);
+            }
 
-        if (movementState != 0 && spineAnimator.AngleLimit != originalValue)
-        {
-            spineAnimator.AngleLimit += 0.1f;
-            spineAnimator.AngleLimit = Mathf.Clamp(spineAnimator.AngleLimit, 0, originalValue);
+            if (movementState != 0 && spineAnimator.AngleLimit != originalValue)
+            {
+                spineAnimator.AngleLimit += 0.1f;
+                spineAnimator.AngleLimit = Mathf.Clamp(spineAnimator.AngleLimit, 0, originalValue);
+            }
         }
 
         /*if (moving > 0)
@@ -367,6 +373,7 @@ public class PlayerController : MonoBehaviour
     {
         if (movementState == 1)
         {
+            animator.SetLayerWeight(1, 0);
             animator.SetBool("IsWalking", true);
             animator.SetBool("IsTrotting", false);
             speed = 1.5f;
@@ -390,9 +397,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            animator.SetLayerWeight(1, 1);
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsCantering", false);
             speed = 0;
+            StartCoroutine(TailSwing());
         }
     }
 
@@ -480,7 +489,7 @@ public class PlayerController : MonoBehaviour
         Physics.Raycast(chestRaycast.transform.position, Vector3.down, out hit, groundMask);
 
         //Debug.Log(rLeft.transform.position);
-        hoofPos.PrintPosition();
+        //hoofPos.PrintPosition();
 
         psMain.startRotationX = trackRotation.x;
         psMain.startRotationY = trackRotation.y;
@@ -527,5 +536,24 @@ public class PlayerController : MonoBehaviour
     public void EndJump()
     {
         speed -= 2;
+    }
+
+    private IEnumerator TailSwing()
+    {
+        while(speed == 0)
+        {
+            int randomNum = Random.Range(0, 2);
+            if (randomNum == 0)
+            {
+                yield return new WaitForSeconds(5);
+            }
+            else
+            {
+                animator.SetBool("TailSwing", true);
+                yield return new WaitForSeconds(0.5f);
+                animator.SetBool("TailSwing", false);
+                yield return new WaitForSeconds(5);
+            }
+        }
     }
 }
