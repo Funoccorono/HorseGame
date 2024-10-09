@@ -11,66 +11,66 @@ AvatarMask:
   m_Elements:
   - m_Path: 
     m_Weight: 1
-  - m_Path: Finnhorse
+  - m_Path: Finnhorse.004
     m_Weight: 0
   - m_Path: G_Finnhorse_Rig
     m_Weight: 0
+  - m_Path: G_Finnhorse_Rig/Bone.027
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071/Bone.072
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071/Bone.072/Bone.073
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071/Bone.072/Bone.073/Bone.074
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.080
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.080/Bone.081
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.088
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.068/Bone.088/Bone.089
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.077
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.077/Bone.078
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.077/Bone.078/Bone.079
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.090
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.067/Bone.090/Bone.091
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.075
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.075/Bone.076
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.082
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.082/Bone.083
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.084
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.084/Bone.085
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.086
+    m_Weight: 1
+  - m_Path: G_Finnhorse_Rig/Bone.027/Bone.026/Bone.086/Bone.087
+    m_Weight: 1
   - m_Path: G_Finnhorse_Rig/DEF-spine.001
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071/Bone.072
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071/Bone.072/Bone.073
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.069/Bone.070/Bone.071/Bone.072/Bone.073/Bone.074
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.080
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.080/Bone.081
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.088
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.068/Bone.088/Bone.089
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.077
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.077/Bone.078
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.077/Bone.078/Bone.079
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.090
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.067/Bone.090/Bone.091
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.075
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.075/Bone.076
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.082
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.082/Bone.083
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.084
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.084/Bone.085
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.086
-    m_Weight: 1
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/Bone.027/Bone.026/Bone.086/Bone.087
-    m_Weight: 1
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002
     m_Weight: 0
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-pelvis.L
@@ -190,12 +190,6 @@ AvatarMask:
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002/DEF-neck.003/DEF-neck.004/DEF-head/DEF-skull/DEF-skull.L
     m_Weight: 0
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002/DEF-neck.003/DEF-neck.004/DEF-head/DEF-skull/DEF-skull.R
-    m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002/DEF-neck.003/DEF-neck.004/DEF-head/EyeControl
-    m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002/DEF-neck.003/DEF-neck.004/DEF-head/EyeControl/EyeFollow.L
-    m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002/DEF-neck.003/DEF-neck.004/DEF-head/EyeControl/EyeFollow.R
     m_Weight: 0
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002/DEF-neck.003/DEF-neck.004/DEF-head/lowerEyeLid.L
     m_Weight: 0
@@ -319,25 +313,25 @@ AvatarMask:
     m_Weight: 0
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/Mane_20.1/Bone.048
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_21.1
+  - m_Path: G_Finnhorse_Rig/Mane_21.1
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_21.1/Bone.050
+  - m_Path: G_Finnhorse_Rig/Mane_21.1/Bone.050
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_22.1
+  - m_Path: G_Finnhorse_Rig/Mane_22.1
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_22.1/Bone.052
+  - m_Path: G_Finnhorse_Rig/Mane_22.1/Bone.052
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_23.1
+  - m_Path: G_Finnhorse_Rig/Mane_23.1
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_23.1/Bone.054
+  - m_Path: G_Finnhorse_Rig/Mane_23.1/Bone.054
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_23.1/Bone.054/Bone.055
+  - m_Path: G_Finnhorse_Rig/Mane_23.1/Bone.054/Bone.055
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_24.1
+  - m_Path: G_Finnhorse_Rig/Mane_24.1
     m_Weight: 0
-  - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Mane_24.1/Bone.057
+  - m_Path: G_Finnhorse_Rig/Mane_24.1/Bone.057
     m_Weight: 0
-  - m_Path: Mane
+  - m_Path: Mane.004
     m_Weight: 0
-  - m_Path: Tail
+  - m_Path: Tail.004
     m_Weight: 1

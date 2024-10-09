@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
     private float lookTargetOffset = 0f;
     private float originalValue;
     private ParticleSystem.MainModule psMain;
+    private bool lerpingToZero = false;
+    private bool lerpingToOne = false;
+    private float elapsedTime = 0f;
+    private float layerStartWeight = 0;
+    private float layerEndWeight = 0;
+    private bool isTurning = false;
 
     private RaycastHit chest;
     private RaycastHit hip;
@@ -98,7 +104,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (lerpingToOne || lerpingToZero) LerpAnimatorLayer();
 
         Ray chestRay = new Ray(chestRaycast.transform.position, -transform.up);
         Ray hipRay = new Ray(hipRaycast.transform.position, -transform.up);
@@ -113,7 +119,12 @@ public class PlayerController : MonoBehaviour
             //moving = 1;
             //movementState = 3;
             if (moving < 1) moving = 1;
-            if (movementState < 4)
+            if (movementState == -1)
+            {
+                movementState += 1;
+                rotationSpeed += 15;
+            }
+            else if (movementState < 4)
             {
                 movementState += 1;
                 rotationSpeed -= 5;
@@ -127,7 +138,12 @@ public class PlayerController : MonoBehaviour
             //moving = 0;
             //speed -= 10;
             if (movementState == 1) moving = 0;
-            if (movementState >= 1)
+            if (movementState == 0)
+            {
+                movementState -= 1;
+                rotationSpeed -= 15;
+            }
+            else if (movementState >= 0)
             {
                 movementState -= 1;
                 rotationSpeed += 5;
@@ -142,12 +158,6 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time - jumpButtonPressedTime >= 0.5) animator.SetBool("IsJumping", false);
         }
-
-        /*if (!isGrounded)
-        {
-            animator.SetBool("IsJumping", true);
-        }*/
-
 
         if (movementState >= 3 && Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -183,13 +193,34 @@ public class PlayerController : MonoBehaviour
             lookTargetOffset = Mathf.Clamp(lookTargetOffset, -0.75f, 0.75f);
             lookTarget.localPosition = new Vector3(lookTargetOffset, lookTarget.localPosition.y, lookTarget.localPosition.z);
         }
-        
+
         if ((horizontalInput >= 0.5f || horizontalInput <= -0.5f) && movementState == 0)
         {
             animator.SetBool("IsTurning", true);
+            if (isTurning == false)
+            {
+                isTurning = true;
+                lerpingToZero = true;
+                lerpingToOne = false;
+                layerStartWeight = animator.GetLayerWeight(3);
+                layerEndWeight = 0;
+                elapsedTime = 0;
+            }
         }
 
-        else animator.SetBool("IsTurning", false);
+        else
+        {
+            animator.SetBool("IsTurning", false);
+            if (isTurning == true)
+            {
+                isTurning = false;
+                lerpingToOne = true;
+                lerpingToZero = false;
+                layerStartWeight = animator.GetLayerWeight(3);
+                layerEndWeight = 1;
+                elapsedTime = 0;
+            }
+        }
 
         if (horizontalInput > 0f)
         {
@@ -213,85 +244,6 @@ public class PlayerController : MonoBehaviour
                 spineAnimator.AngleLimit = Mathf.Clamp(spineAnimator.AngleLimit, 0, originalValue);
             }
         }
-
-        /*if (moving > 0)
-        {
-            //transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
-            if (isGrounded)
-            {
-                transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
-                SurfaceAlignment(chest, hip);
-            }
-        }
-
-        if (horizontalInput != 0)
-        {
-            //transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
-            if (isGrounded)
-            {
-                //transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
-                SurfaceAlignment(chest, hip);
-            }
-        }*/
-
-        //-------------------
-        //SIDEWAYS MOVEMENT
-        /*
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-
-        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
-
-        if (horizontalInput < 0) //Turning left
-        {
-            animator.SetFloat("Blend", 0, 0.5f, Time.deltaTime);
-            animator.SetBool("Turning_Left", true);
-        }
-        else if (horizontalInput > 0) //Turning right
-        {
-            animator.SetFloat("Blend", 1, 0.5f, Time.deltaTime);
-            animator.SetBool("Turning_Right", true);
-        }
-        else
-        {
-            animator.SetFloat("Blend", 0.5f, 0.5f, Time.deltaTime);
-            animator.SetBool("Turning_Right", false);
-            animator.SetBool("Turning_Left", false);
-        }
-
-        //speed = inputMagnitude * maximumSpeed;
-        //movementDirection = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up) * movementDirection;
-        movementDirection.Normalize();
-        */
-
-        //------------------
-
-        /*private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-        var rigidBody = hit.collider.attachedRigidbody;
-
-        if (rigidBody != null)
-        {
-            var forceDirection = hit.gameObject.transform.position - transform.position;
-            forceDirection.y = 0;
-            forceDirection.Normalize();
-
-            rigidBody.AddForceAtPosition(forceDirection * forceMagnitude, transform.position, ForceMode.Impulse);
-
-            rigidBody.GetComponent<ObstacaleCollider>().DisableCollider();
-        }
-
-        private void OnApplicationFocus(bool focus)
-        {
-        if (focus)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-    }*/
     }
 
     private void FixedUpdate()
@@ -302,47 +254,28 @@ public class PlayerController : MonoBehaviour
 
         if (moving > 0)
         {
-            transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
+            if (movementState == -1) transform.Rotate(-1 * ((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up));
+            else transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
             if (isGrounded)
             {
-                transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInputFixed * Vector3.up);
+                //transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInputFixed * Vector3.up);
                 SurfaceAlignment(chest, hip);
             }
         }
 
         if (horizontalInput != 0)
         {
-            transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
+            if (movementState == -1) transform.Rotate(-1 * ((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up));
+            else transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInput * Vector3.up);
             if (isGrounded)
             {
-                transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInputFixed * Vector3.up);
+                //transform.Rotate((rotationSpeed * Time.deltaTime) * horizontalInputFixed * Vector3.up);
                 SurfaceAlignment(chest, hip);
             }
         }
 
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
 
-        /*if (Input.GetAxisRaw("Horizontal") < 0) //Turning left
-        {
-            animator.SetFloat("Blend", 0, 0.5f, Time.deltaTime);
-            animator.SetBool("Turning_Left", true);
-        }
-        else if (Input.GetAxisRaw("Horizontal") > 0) //Turning right
-        {
-            animator.SetFloat("Blend", 1, 0.5f, Time.deltaTime);
-            animator.SetBool("Turning_Right", true);
-        }
-        else
-        {
-            animator.SetFloat("Blend", 0.5f, 0.5f, Time.deltaTime);
-            animator.SetBool("Turning_Right", false);
-            animator.SetBool("Turning_Left", false);
-        }*/
-
-        //m_rigidbody.MovePosition(Vector3.forward * 2);
-
-        //speed = inputMagnitude * maximumSpeed;
-        //movementDirection = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up) * movementDirection;
         movementDirection.Normalize();
 
         m_rigidbody.velocity = movement;
@@ -371,12 +304,26 @@ public class PlayerController : MonoBehaviour
 
     private void SetGait()
     {
+        if (movementState == -1)
+        {
+            lerpingToZero = true;
+            layerStartWeight = animator.GetLayerWeight(3);
+            layerEndWeight = 0;
+            elapsedTime = 0;
+            animator.SetBool("IsBacking", true);
+            speed = -1;
+            StopAllCoroutines();
+        }
         if (movementState == 1)
         {
-            animator.SetLayerWeight(1, 0);
+            lerpingToZero = true;
+            layerStartWeight = animator.GetLayerWeight(3);
+            layerEndWeight = 0;
+            elapsedTime = 0;
             animator.SetBool("IsWalking", true);
             animator.SetBool("IsTrotting", false);
             speed = 1.5f;
+            StopAllCoroutines();
         }
         else if (movementState == 2)
         {
@@ -395,15 +342,110 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsGalloping", true);
             speed = 10;
         }
-        else
+        else if (movementState == 0)
         {
-            animator.SetLayerWeight(1, 1);
+            lerpingToOne = true;
+            layerStartWeight = animator.GetLayerWeight(3);
+            layerEndWeight = 1;
+            elapsedTime = 0;
+            animator.SetBool("IsBacking", false);
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsCantering", false);
             speed = 0;
             StartCoroutine(TailSwing());
+            StartCoroutine(EarFlick());
+            StartCoroutine(HeadTurn());
         }
     }
+
+    public void StartJump()
+    {
+        speed += 2;
+    }
+
+    public void EndJump()
+    {
+        speed -= 2;
+    }
+
+    private void LerpAnimatorLayer()
+    {
+        elapsedTime += 2 * Time.deltaTime;
+
+        float lerp = Mathf.Lerp(layerStartWeight, layerEndWeight, elapsedTime);
+
+        animator.SetLayerWeight(1, lerp);
+        animator.SetLayerWeight(2, lerp);
+        animator.SetLayerWeight(3, lerp);
+
+        if (lerp == layerEndWeight)
+        {
+            lerpingToOne = false;
+            lerpingToZero = false;
+        }
+    }
+
+    private IEnumerator TailSwing()
+    {
+        while(speed == 0)
+        {
+            int randomNum = Random.Range(0, 2);
+            if (randomNum == 0)
+            {
+                yield return new WaitForSeconds(5);
+            }
+            else
+            {
+                animator.SetBool("TailSwing", true);
+                yield return new WaitForSeconds(0.5f);
+                animator.SetBool("TailSwing", false);
+                yield return new WaitForSeconds(5);
+            }
+        }
+    }
+
+    private IEnumerator EarFlick()
+    {
+        while (speed == 0)
+        {
+            int randomNum = Random.Range(0, 2);
+            if (randomNum == 0)
+            {
+                yield return new WaitForSeconds(5);
+            }
+            else
+            {
+                int num = Random.Range(0, 2);
+                if (num == 0) animator.SetBool("EarFlickL", true);
+                if (num == 1) animator.SetBool("EarFlickR", true);
+                yield return new WaitForSeconds(0.5f);
+                animator.SetBool("EarFlickL", false);
+                animator.SetBool("EarFlickR", false);
+                yield return new WaitForSeconds(5);
+            }
+        }
+    }
+
+    private IEnumerator HeadTurn()
+    {
+        while (speed == 0)
+        {
+            int randomNum = Random.Range(0, 2);
+            if (randomNum == 0)
+            {
+                yield return new WaitForSeconds(5);
+            }
+            else
+            {
+                animator.SetBool("HeadTurn", true);
+                yield return new WaitForSeconds(0.5f);
+                animator.SetBool("HeadTurn", false);
+                yield return new WaitForSeconds(10);
+            }
+        }
+    }
+
+    //---------------STEPS---------------
 
     public void Step1()
     {
@@ -428,7 +470,7 @@ public class PlayerController : MonoBehaviour
         audioSources[3].clip = stepSounds[Random.Range(0, stepSounds.Length)];
         audioSources[3].PlayOneShot(audioSources[3].clip);
     }
-    
+
     public void FLeft()
     {
         if (!fLeft) return;
@@ -447,7 +489,7 @@ public class PlayerController : MonoBehaviour
         ParticleSystem.EmitParams ptrack = new ParticleSystem.EmitParams
         {
             position = trackPosition, //Set The Position
-            
+
         };
 
         tracks.Emit(ptrack, 1);
@@ -526,34 +568,5 @@ public class PlayerController : MonoBehaviour
         };
 
         tracks.Emit(ptrack, 1);
-    }
-
-    public void StartJump()
-    {
-        speed += 2;
-    }
-
-    public void EndJump()
-    {
-        speed -= 2;
-    }
-
-    private IEnumerator TailSwing()
-    {
-        while(speed == 0)
-        {
-            int randomNum = Random.Range(0, 2);
-            if (randomNum == 0)
-            {
-                yield return new WaitForSeconds(5);
-            }
-            else
-            {
-                animator.SetBool("TailSwing", true);
-                yield return new WaitForSeconds(0.5f);
-                animator.SetBool("TailSwing", false);
-                yield return new WaitForSeconds(5);
-            }
-        }
     }
 }
