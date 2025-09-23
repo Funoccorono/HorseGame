@@ -184,11 +184,14 @@ namespace FIMSpace.FLook
                 // Horizontal
                 float angle = Mathf.Abs(Mathf.DeltaAngle(_preLookAboveLookAngles.y, angles.y));
 
+
                 if (angle < animatedLookWhenAbove)
                     angles.y = _preLookAboveLookAngles.y;
                 else
                 {
-                    angles.y = Mathf.LerpUnclamped(_preLookAboveLookAngles.y, angles.y, (angle - animatedLookWhenAbove) / angle);
+                    if (angle != 0f)
+                        angles.y = Mathf.LerpUnclamped(_preLookAboveLookAngles.y, angles.y, (angle - animatedLookWhenAbove) / angle);
+
                     _preLookAboveLookAngles.y = angles.y;
                 }
 
@@ -200,7 +203,9 @@ namespace FIMSpace.FLook
                     angles.x = _preLookAboveLookAngles.x;
                 else
                 {
-                    angles.x = Mathf.LerpUnclamped(_preLookAboveLookAngles.x, angles.x, (angle - limit) / angle);
+                    if (angle != 0f)
+                        angles.x = Mathf.LerpUnclamped(_preLookAboveLookAngles.x, angles.x, (angle - limit) / angle);
+
                     _preLookAboveLookAngles.x = angles.x;
                 }
             }
@@ -253,7 +258,7 @@ namespace FIMSpace.FLook
                                 maxRotationSpeed = Mathf.Lerp(100f, 430f, MaxRotationSpeed / 0.8f);
                             else if (MaxRotationSpeed < 1.7f)
                                 maxRotationSpeed = Mathf.Lerp(430f, 685f, (MaxRotationSpeed - 0.8f) / (1.7f - 0.8f));
-                            else 
+                            else
                                 maxRotationSpeed = Mathf.Lerp(685f, 1250f, (MaxRotationSpeed - 1.7f) / (2.5f - 1.7f));
                         }
 
@@ -269,7 +274,7 @@ namespace FIMSpace.FLook
                         if (RotationSpeed < 0.8f)
                             lerpSpeed = Mathf.Lerp(2.85f, 4.5f, RotationSpeed / 0.8f);
                         else if (RotationSpeed < 1.7f)
-                            lerpSpeed = Mathf.Lerp(4.5f,10f, (RotationSpeed - 0.8f) / (1.7f - 0.8f));
+                            lerpSpeed = Mathf.Lerp(4.5f, 10f, (RotationSpeed - 0.8f) / (1.7f - 0.8f));
                         else if (RotationSpeed < 2.15f)
                             lerpSpeed = Mathf.Lerp(10f, 14f, (RotationSpeed - 1.7f) / (2.15f - 1.7f));
                         else
@@ -284,7 +289,7 @@ namespace FIMSpace.FLook
                         {
                             float maxDeltaSpeed; // Calculating max delta speed in responsive way for 'MaxRotationSpeed' parameter
 
-                            if (MaxRotationSpeed <1.1f)
+                            if (MaxRotationSpeed < 1.1f)
                                 maxDeltaSpeed = Mathf.Lerp(5f, 9f, MaxRotationSpeed / 1.1f);
                             else if (MaxRotationSpeed < 1.7f)
                                 maxDeltaSpeed = Mathf.Lerp(9f, 20f, (MaxRotationSpeed - 1.1f) / (1.7f - 1.1f));
@@ -292,7 +297,7 @@ namespace FIMSpace.FLook
                                 maxDeltaSpeed = Mathf.Lerp(20f, 45f, (MaxRotationSpeed - 1.7f) / (2.5f - 1.7f));
 
                             float diff = Vector3.Distance(target, animatedLookAngles);
-                            
+
                             if (diff > maxDeltaSpeed) lerpSpeed /= (1f + (diff - maxDeltaSpeed) / 3f);
 
                             target = Vector3.Lerp(animatedLookAngles, angles, lerpSpeed * delta);

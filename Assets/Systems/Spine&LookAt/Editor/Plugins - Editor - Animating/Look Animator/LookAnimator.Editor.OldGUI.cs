@@ -84,22 +84,16 @@ namespace FIMSpace.FLook
 
                 GUILayout.BeginHorizontal();
 
-                if (Get.BaseTransform != Get.transform || !Get.BaseTransform)
+                if ( Get.BaseTransform == null)
                 {
-                    if (!Get.BaseTransform)
-                        GUILayout.BeginHorizontal(FEditor_Styles.YellowBackground);
-                    else
-                        GUILayout.BeginHorizontal();
-
-                    EditorGUILayout.PropertyField(sp_basetr);
-
-                    if (GUILayout.Button("Try Find", new GUILayoutOption[2] { GUILayout.MaxWidth(90), GUILayout.MaxHeight(15) }))
-                    {
-                        Get.FindBaseTransform();
-                        EditorUtility.SetDirty(target);
-                    }
-
-                    GUILayout.EndHorizontal();
+                    GUI.color = new Color(1f, 1f, 1f, 0.85f);
+                    EditorGUILayout.PropertyField(sp_basetr, new GUIContent(" Base Transform:", EditorGUIUtility.IconContent("Transform Icon").image));
+                    EditorGUILayout.LabelField("(this)", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(44));
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(sp_basetr, new GUIContent(" Base Transform:", EditorGUIUtility.IconContent("Transform Icon").image));
                 }
 
                 GUILayout.EndHorizontal();

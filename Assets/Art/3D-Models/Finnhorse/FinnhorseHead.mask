@@ -154,7 +154,7 @@ AvatarMask:
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-shoulder.R/DEF-upper_arm.R/DEF-upper_arm.R.001/DEF-forearm.R/DEF-forearm.R.001/DEF-forefoot.R/DEF-forefoot.R.001/DEF-f_toe.R/DEF-f_hoof.R
     m_Weight: 0
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001
     m_Weight: 1
   - m_Path: G_Finnhorse_Rig/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/DEF-neck.001/DEF-neck.002

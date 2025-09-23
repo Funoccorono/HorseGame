@@ -12,6 +12,7 @@ namespace FIMSpace.FLook
     /// </summary>
     [AddComponentMenu("FImpossible Creations/Look Animator 2")]
     [DefaultExecutionOrder(-10)]
+    [HelpURL("https://assetstore.unity.com/packages/tools/animation/look-animator-122249")]
     public partial class FLookAnimator : MonoBehaviour, UnityEngine.EventSystems.IDropHandler, IFHierarchyIcon
     {
         // THIS IS PARTIAL CLASS: REST OF THE CODE INSIDE "Scripts" directory
@@ -76,8 +77,10 @@ namespace FIMSpace.FLook
         public bool AnimatePhysics = false;
         [Tooltip("If you want look animator to stop computing when choosed mesh is not visible in any camera view (editor's scene camera is detecting it too)")]
         public Renderer OptimizeWithMesh = null;
-
-
+        [Tooltip("If Look Animator should disable its calculations when is far from the camera (zero means that this optimization is not used)")]
+        public float OptimizeAtDistance = 0f;
+        [Tooltip("Assign for custom camera distance, otherwise Camera.main will be used")]
+        public Camera customDistanceCamera = null;
 
         [Tooltip("Object which will be main target of look.\n\nYou can use feature called 'Moment Target' to look at other object for a moment then look back on ObjectToFollow - check LookAnimator.SetMomentLookTarget()")]
         public Transform ObjectToFollow;
@@ -310,16 +313,19 @@ namespace FIMSpace.FLook
 
         // THIS IS PARTIAL CLASS: REST OF THE CODE INSIDE "Scripts" directory
 
-        
-        private void Reset() { FindBaseTransform(); }
-
-        private void Awake() { _LOG_NoRefs(); }
-
         protected virtual void Start()
         {
             initialized = false;
-
+            _LOG_NoRefs();
+            if (BaseTransform == null) FindBaseTransform();
+            if (LookBones == null || LookBones.Count == 0 || ContainsNullTransforms()) { RefreshLookBones(); }
             if (!StartAfterTPose) InitializeBaseVariables(); else startAfterTPoseCounter = 0;
+        }
+
+        bool ContainsNullTransforms()
+        {
+            for (int l = 0; l < LookBones.Count; l++) if (LookBones[l].Transform == null) return true;
+            return false;
         }
 
         private void OnDisable()
@@ -338,6 +344,7 @@ namespace FIMSpace.FLook
 
         bool updateLookAnimator = true;
         bool wasUpdating = false;
+        float distanceOptimizeFade = 1f;
         void Update()
         {
             #region Conditions to do any calculations for Look Animator
@@ -355,6 +362,27 @@ namespace FIMSpace.FLook
             }
 
             if (OptimizeWithMesh != null) if (OptimizeWithMesh.isVisible == false) { updateLookAnimator = false; wasUpdating = false; return; }
+            
+            if (OptimizeAtDistance > 0f)
+            {
+                float distance = CalculateDistanceToCameraForOptimization();
+
+                if (distance > OptimizeAtDistance)
+                {
+                    if (distanceOptimizeFade <= 0f)
+                    {
+                        updateLookAnimator = false;
+                        wasUpdating = false;
+                        return;
+                    }
+                    else
+                    {
+                        distanceOptimizeFade = Mathf.MoveTowards(distanceOptimizeFade, 0f, Time.unscaledDeltaTime * 3f);
+                    }
+                }
+                else
+                { distanceOptimizeFade = 1f; }
+            } else { distanceOptimizeFade = 1f; }
 
             if (wasUpdating == false)
             {
@@ -388,6 +416,18 @@ namespace FIMSpace.FLook
             #endregion
 
             if (!AnimatePhysics) PreCalibrateBones();
+        }
+
+        public float CalculateDistanceToCameraForOptimization()
+        {
+            float distance = -1f;
+            if (customDistanceCamera != null) { distance = Vector3.Distance(BaseTransform.position, customDistanceCamera.transform.position); }
+            else
+            {
+                if (Camera.main != null) distance = Vector3.Distance(BaseTransform.position, Camera.main.transform.position);
+            }
+
+            return distance;
         }
 
         void FixedUpdate()

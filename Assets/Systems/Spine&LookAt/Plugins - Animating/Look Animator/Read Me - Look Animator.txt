@@ -1,7 +1,7 @@
 ﻿__________________________________________________________________________________________
 
 Package "Look Animator"
-Version 2.0.1.3
+Version 2.0.1.7
 
 Made by FImpossible Creations - Filip Moeglich
 https://www.FilipMoeglich.pl
@@ -52,6 +52,18 @@ ________________________________________________________________________________
 Version History:
 
 Since V2.0.0: ! Warning ! To make update be proceed without any errors, please remove directory 'Look Animator' from project and import new version again
+
+2.0.1.7
+- Optimize At Distance feature implementation, to disable look animator calculations when character is far away main camera ()
+
+2.0.1.6
+- Base Transform field is now always visible (if null on start then using component's transform as base transform)
+
+2.0.1.5
+- Added auto find methods to the runtime plugin
+
+2.0.1.4
+- Added `Target To Follow` field under `Lead Bone` field
 
 2.0.1.3
 - Fixed base rotation compensation head flip issue

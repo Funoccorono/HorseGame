@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static FIMSpace.FLook.FLookAnimator;
 
 namespace FIMSpace.FLook
 {
@@ -45,110 +46,21 @@ namespace FIMSpace.FLook
         /// </summary>
         private void FindCompensationBones(FLookAnimator headLook)
         {
-            // First let's check if it's humanoid character, then we can get head bone transform from it
-            Transform root = headLook.transform;
-            if (headLook.BaseTransform) root = headLook.BaseTransform;
-
-            Animator animator = root.GetComponentInChildren<Animator>();
-
-            List<Transform> compensationBones = new List<Transform>();
-
-            Transform headBone = headLook.LeadBone;
-
-            if (animator)
-            {
-                if (animator.isHuman)
-                {
-                    Transform b = animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
-                    if (b) compensationBones.Add(b);
-
-                    b = animator.GetBoneTransform(HumanBodyBones.RightShoulder);
-                    if (b) compensationBones.Add(b);
-
-                    b = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-                    if (b) compensationBones.Add(b);
-
-                    b = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
-                    if (b) compensationBones.Add(b);
-
-                    if (!headBone) animator.GetBoneTransform(HumanBodyBones.Head);
-                }
-                else
-                {
-                    if (animator)
-                    {
-                        foreach (Transform t in animator.transform.GetComponentsInChildren<Transform>())
-                        {
-                            if (t.name.ToLower().Contains("clav"))
-                            {
-                                if (!compensationBones.Contains(t)) compensationBones.Add(t);
-                            }
-                            else
-                            if (t.name.ToLower().Contains("shoulder"))
-                            {
-                                if (!compensationBones.Contains(t)) compensationBones.Add(t);
-                            }
-                            else
-                            if (t.name.ToLower().Contains("uppera"))
-                            {
-                                if (!compensationBones.Contains(t)) compensationBones.Add(t);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (compensationBones.Count != 0)
-            {
-                for (int i = 0; i < compensationBones.Count; i++)
-                {
-                    // Checking if this bone is not already in compensation bones list
-                    bool already = false;
-                    for (int c = 0; c < headLook.CompensationBones.Count; c++)
-                    {
-                        if (compensationBones[i] == headLook.CompensationBones[c].Transform)
-                        {
-                            already = true;
-                            break;
-                        }
-                    }
-
-                    if (already) continue;
-
-                    // Fill nulls if available
-                    bool filled = false;
-                    for (int c = 0; c < headLook.CompensationBones.Count; c++)
-                    {
-                        if (headLook.CompensationBones[c].Transform == null)
-                        {
-                            headLook.CompensationBones[c] = new FLookAnimator.CompensationBone(compensationBones[i]);
-                            filled = true;
-                            serializedObject.Update();
-                            serializedObject.ApplyModifiedProperties();
-                            break;
-                        }
-                    }
-
-                    if (!filled)
-                        headLook.CompensationBones.Add(new FLookAnimator.CompensationBone(compensationBones[i]));
-                }
-
-                for (int c = headLook.CompensationBones.Count - 1; c >= 0; c--)
-                {
-                    if (headLook.CompensationBones[c].Transform == null) headLook.CompensationBones.RemoveAt(c);
-                }
-
-                compensationBonesCount = headLook.CompensationBones.Count;
-            }
+            headLook.FindCompensationBones();
+            serializedObject.Update();
+            serializedObject.ApplyModifiedProperties();
+            compensationBonesCount = headLook.CompensationBones.Count;
         }
 
 
         void CheckForComponents()
         {
             if (skins == null) skins = new List<SkinnedMeshRenderer>();
-            if (Get.BaseTransform == null) Get.BaseTransform = Get.transform;
+           
+            Transform bTransform = Get.BaseTransform;
+            if (bTransform == null) bTransform = Get.transform;
 
-            foreach (var t in Get.BaseTransform.GetComponentsInChildren<Transform>())
+            foreach (var t in bTransform.GetComponentsInChildren<Transform>())
             {
                 SkinnedMeshRenderer s = t.GetComponent<SkinnedMeshRenderer>(); if (s) skins.Add(s);
                 if (!animator) animator = t.GetComponent<Animator>();
@@ -157,7 +69,7 @@ namespace FIMSpace.FLook
 
             if ((skins != null && largestSkin != null) && (animator != null || animation != null)) return;
 
-            if (Get.BaseTransform != Get.transform)
+            if (bTransform != Get.transform)
             {
                 foreach (var t in Get.transform.GetComponentsInChildren<Transform>())
                 {
@@ -201,113 +113,8 @@ namespace FIMSpace.FLook
         /// </summary>
         private void FindHeadBone(FLookAnimator headLook)
         {
-            // First let's check if it's humanoid character, then we can get head bone transform from it
-            Transform root = headLook.transform;
-            if (headLook.BaseTransform) root = headLook.BaseTransform;
-
-            Animator animator = root.GetComponentInChildren<Animator>();
-            Transform animatorHeadBone = null;
-            if (animator)
-            {
-                if (animator.isHuman)
-                    animatorHeadBone = animator.GetBoneTransform(HumanBodyBones.Head);
-            }
-
-            List<SkinnedMeshRenderer> sMeshs = new List<SkinnedMeshRenderer>();// = root.GetComponentInChildren<SkinnedMeshRenderer>();
-
-            foreach (var tr in root.GetComponentsInChildren<Transform>())
-            {
-                if (tr == null) continue;
-                SkinnedMeshRenderer sMesh = tr.GetComponent<SkinnedMeshRenderer>();
-                if (sMesh) sMeshs.Add(sMesh);
-            }
-
-            Transform leadBone = null;
-            Transform probablyWrongTransform = null;
-
-            for (int s = 0; s < sMeshs.Count; s++)
-            {
-                Transform t;
-
-                for (int i = 0; i < sMeshs[s].bones.Length; i++)
-                {
-                    t = sMeshs[s].bones[i];
-                    if (t.name.ToLower().Contains("head"))
-                    {
-                        if (t.parent == root) continue; // If it's just mesh object from first depths
-
-                        leadBone = t;
-                        break;
-                    }
-                }
-
-                if (!leadBone)
-                    for (int i = 0; i < sMeshs[s].bones.Length; i++)
-                    {
-                        t = sMeshs[s].bones[i];
-                        if (t.name.ToLower().Contains("neck"))
-                        {
-                            leadBone = t;
-                            break;
-                        }
-                    }
-            }
-
-
-            foreach (Transform t in root.GetComponentsInChildren<Transform>())
-            {
-                if (t.name.ToLower().Contains("head"))
-                {
-                    if (t.GetComponent<SkinnedMeshRenderer>())
-                    {
-                        if (t.parent == root) continue; // If it's just mesh object from first depths
-                        probablyWrongTransform = t;
-                        continue;
-                    }
-
-                    leadBone = t;
-                    break;
-                }
-            }
-
-            if (!leadBone)
-                foreach (Transform t in root.GetComponentsInChildren<Transform>())
-                {
-                    if (t.name.ToLower().Contains("neck"))
-                    {
-                        leadBone = t;
-                        break;
-                    }
-                }
-
-            if (leadBone == null && animatorHeadBone != null)
-                leadBone = animatorHeadBone;
-            else
-            if (leadBone != null && animatorHeadBone != null)
-            {
-                if (animatorHeadBone.name.ToLower().Contains("head")) leadBone = animatorHeadBone;
-                else
-                    if (!leadBone.name.ToLower().Contains("head")) leadBone = animatorHeadBone;
-            }
-
-            if (leadBone)
-            {
-                headLook.LeadBone = leadBone;
-            }
-            else
-            {
-                if (probablyWrongTransform)
-                {
-                    Get.LeadBone = probablyWrongTransform;
-                    Debug.LogWarning("[LOOK ANIMATOR] Found " + probablyWrongTransform + " but it's probably wrong transform");
-                }
-                else
-                {
-                    Debug.LogWarning("[LOOK ANIMATOR] Couldn't find any fitting bone");
-                }
-            }
+            headLook.FindHeadBone();
         }
-
 
         public Vector3 RoundVector(Vector3 v)
         {

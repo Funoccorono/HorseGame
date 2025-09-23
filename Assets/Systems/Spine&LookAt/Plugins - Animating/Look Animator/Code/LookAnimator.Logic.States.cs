@@ -35,7 +35,7 @@ namespace FIMSpace.FLook
                 animatedMotionWeight = Mathf.SmoothDamp(animatedMotionWeight, 1f, ref _velo_animatedMotionWeight, Mathf.Lerp(.3f, 0.125f, RotationSpeed / 2.5f), Mathf.Infinity, delta * turbo);
             }
 
-            finalMotionWeight = animatedMotionWeight * LookAnimatorAmount;
+            finalMotionWeight = animatedMotionWeight * LookAnimatorAmount * distanceOptimizeFade;
             if (finalMotionWeight > 0.999f) finalMotionWeight = 1f;
         }
 

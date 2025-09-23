@@ -12,7 +12,7 @@ namespace FIMSpace.FLook
         public int BackBonesCount = 0;
         public int _preBackBonesCount = 0;
         /// <summary> List of main bone transform used by Look Animator </summary>
-        public List<LookBone> LookBones;
+        public List<LookBone> LookBones = new List<LookBone>();
 
         #region Regular Calculations Variables
 
@@ -47,6 +47,7 @@ namespace FIMSpace.FLook
 
         public void InitializeBaseVariables()
         {
+            if (BaseTransform == null) FindBaseTransform();
             _LOG_NoRefs();
 
             LookState = EFHeadLookState.Null;

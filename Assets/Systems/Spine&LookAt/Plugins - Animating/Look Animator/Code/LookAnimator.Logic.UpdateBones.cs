@@ -218,7 +218,7 @@ namespace FIMSpace.FLook
         /// Refreshing list of bones triggered by changing count of backbones through inspector window
         /// Called in Editor OnValidate() or by custom scripting
         /// </summary>
-        internal void RefreshLookBones()
+        public void RefreshLookBones()
         {
             if (LookBones == null) { LookBones = new System.Collections.Generic.List<LookBone>(); LookBones.Add(new LookBone(null)); }
 

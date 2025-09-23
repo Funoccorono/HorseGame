@@ -28,11 +28,11 @@ namespace FIMSpace.FLook
             if (PlayerPrefs.GetInt("FLookHeader", 1) == 1)
             {
                 HeaderBoxMain(title, ref Get.drawGizmos, ref drawDefaultInspector, _TexLookAnimIcon, Get, 27);
-                GUILayout.Space(4f);
+                GUILayout.Space(1f);
             }
             else
             {
-                GUILayout.Space(4f);
+                GUILayout.Space(2f);
             }
 
             #region Default Inspector
@@ -80,7 +80,7 @@ namespace FIMSpace.FLook
         {
             if (Get._Editor_Category == target) GUI.backgroundColor = new Color(0.1f, 1f, 0.2f, 1f);
 
-            int height = 28;
+            int height = 30;
             int lim = 390;
             if (choosedLang == ELangs.русский) lim = 440;
 
@@ -123,7 +123,7 @@ namespace FIMSpace.FLook
             DrawCategoryButton(FLookAnimator.EEditorLookCategory.Features, FGUI_Resources.Tex_Module, "Modules");
             DrawCategoryButton(FLookAnimator.EEditorLookCategory.Corrections, FGUI_Resources.Tex_Repair, "Correct");
             EditorGUILayout.EndHorizontal();
-            GUILayout.Space(1);
+            GUILayout.Space(3);
 
 
             switch (Get._Editor_Category)

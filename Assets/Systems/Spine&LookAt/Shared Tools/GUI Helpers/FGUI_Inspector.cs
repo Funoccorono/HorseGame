@@ -7,6 +7,16 @@ namespace FIMSpace.FEditor
 {
     public static class FGUI_Inspector
     {
+        public static readonly GUILayoutOption[] _button_h22 = new GUILayoutOption[] { GUILayout.Height( 34 ) };
+        public static readonly GUILayoutOption[] _button_h18 = new GUILayoutOption[] { GUILayout.Height( 18 ) };
+        public static readonly GUILayoutOption[] _button_w18h18 = new GUILayoutOption[] { GUILayout.Width( 18 ), GUILayout.Height( 18 ) };
+        public static readonly GUILayoutOption[] _button_w20h18 = new GUILayoutOption[] { GUILayout.Width( 20 ), GUILayout.Height( 18 ) };
+        public static readonly GUILayoutOption[] _button_w22h18 = new GUILayoutOption[] { GUILayout.Width( 22 ), GUILayout.Height( 18 ) };
+        public static readonly GUILayoutOption[] _button_w20h16 = new GUILayoutOption[] { GUILayout.Width( 20 ), GUILayout.Height( 16 ) };
+        public static readonly GUILayoutOption[] _button_w22h16 = new GUILayoutOption[] { GUILayout.Width( 22 ), GUILayout.Height( 16 ) };
+        public static readonly GUILayoutOption[] _button_w19h15 = new GUILayoutOption[] { GUILayout.Width( 19 ), GUILayout.Height( 15 ) };
+        public static readonly GUILayoutOption[] _button_w14h14 = new GUILayoutOption[] { GUILayout.Width( 14 ), GUILayout.Height( 14 ) };
+
         public static readonly RectOffset ZeroOffset = new RectOffset(0, 0, 0, 0);
         public static Object LastObjSelected;
         public static GameObject LastGameObjectSelected;

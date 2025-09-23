@@ -1,6 +1,5 @@
 ﻿using FIMSpace.FEditor;
 using System;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -106,10 +105,11 @@ namespace FIMSpace.FLook
         private void El_DrawBaseReferences()
         {
             GUILayout.BeginVertical(FGUI_Resources.BGInBoxBlankStyle);
-            GUILayout.Space(5);
-            El_DrawBaseTransform();
-            El_DrawLeadBone();
             GUILayout.Space(2);
+            El_DrawBaseTransform();
+            GUILayout.Space(2);
+            El_DrawLeadBone();
+            El_DrawToFollow(false);
             GUILayout.EndVertical();
         }
 
@@ -156,6 +156,33 @@ namespace FIMSpace.FLook
             }
 
             EditorGUILayout.EndHorizontal();
+
+            GUILayout.Space(3);
+            var spc = sp_OptimizeWithMesh.Copy(); spc.Next(false);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(spc);
+            if (Get.OptimizeAtDistance <= 0f)
+            {
+                Get.OptimizeAtDistance = 0f;
+                EditorGUILayout.LabelField("(not used)", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(70));
+            }
+            EditorGUILayout.EndHorizontal();
+
+
+            if (Get.OptimizeAtDistance > 0f)
+            {
+                if (Application.isPlaying)
+                {
+                    EditorGUILayout.LabelField("Distance: " + Get.CalculateDistanceToCameraForOptimization(), EditorStyles.centeredGreyMiniLabel);
+                }
+
+                spc.Next(false);
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(spc);
+                if (Get.customDistanceCamera == null && Camera.main != null) { GUI.enabled = false; EditorGUIUtility.labelWidth = 40; EditorGUILayout.ObjectField("Using:", Camera.main, typeof(Camera), true); EditorGUIUtility.labelWidth = 0; GUI.enabled = true; }
+                if (Get.customDistanceCamera == null && Camera.main == null) EditorGUILayout.HelpBox("Warning, there is no main camera on the scene to measured distance from!", MessageType.Warning);
+                EditorGUILayout.EndHorizontal();
+            }
         }
 
 
@@ -177,7 +204,7 @@ namespace FIMSpace.FLook
         }
 
 
-        private void El_DrawToFollow()
+        private void El_DrawToFollow(bool drawFollowMode = true)
         {
             GUILayout.Space(4f);
             EditorGUIUtility.labelWidth = 154;
@@ -196,18 +223,18 @@ namespace FIMSpace.FLook
             if (Get.FollowMode == FLookAnimator.EFFollowMode.FollowObject)
             {
                 if (!Get.ObjectToFollow) GUI.color = new Color(1f, 1f, 0.5f, 1f);
-                EditorGUIUtility.labelWidth = 181;
+                EditorGUIUtility.labelWidth = 200;
                 EditorGUILayout.PropertyField(sp_tofollow, new GUIContent("  Object To Follow (Target)", FGUI_Resources.TexTargetingIcon, sp_tofollow.tooltip), GUILayout.Height(20));
                 GUILayout.Space(4f);
                 GUI.color = c;
                 EditorGUIUtility.labelWidth = 154;
-                EditorGUILayout.PropertyField(sp_FollowMode, new GUIContent(" Offset Mode (optional)", sp_FollowMode.tooltip));
+                if (drawFollowMode) EditorGUILayout.PropertyField(sp_FollowMode, new GUIContent(" Offset Mode (optional)", sp_FollowMode.tooltip));
                 GUI.color = c;
             }
             else
             if (Get.FollowMode == FLookAnimator.EFFollowMode.FollowJustPosition)
             {
-                EditorGUILayout.PropertyField(sp_FollowMode);
+                if (drawFollowMode) EditorGUILayout.PropertyField(sp_FollowMode);
                 EditorGUILayout.PropertyField(sp_FollowOffset, new GUIContent("Follow Position", sp_FollowOffset.tooltip + "\n\nVariable name: 'FollowOffset'"));
             }
             else
@@ -216,7 +243,7 @@ namespace FIMSpace.FLook
                 EditorGUILayout.PropertyField(sp_tofollow);
                 GUILayout.Space(4f);
                 GUI.color = c;
-                EditorGUILayout.PropertyField(sp_FollowMode, new GUIContent("Offset Mode (optional)", sp_FollowMode.tooltip));
+                if (drawFollowMode) EditorGUILayout.PropertyField(sp_FollowMode, new GUIContent("Offset Mode (optional)", sp_FollowMode.tooltip));
                 if (Get.FollowOffset == Vector3.zero) GUI.color = unchangedC;
                 EditorGUILayout.PropertyField(sp_FollowOffset);
                 GUI.color = c;
@@ -246,22 +273,18 @@ namespace FIMSpace.FLook
 
         private void El_DrawBaseTransform()
         {
-            if (Get.BaseTransform != Get.transform || !Get.BaseTransform)
+            if (Get.BaseTransform == null)
             {
-                if (!Get.BaseTransform)
-                    GUILayout.BeginHorizontal(FEditor_Styles.YellowBackground);
-                else
-                    GUILayout.BeginHorizontal();
-
-                EditorGUILayout.PropertyField(sp_basetr);
-
-                if (GUILayout.Button("Try Find", new GUILayoutOption[2] { GUILayout.MaxWidth(90), GUILayout.MaxHeight(15) }))
-                {
-                    Get.FindBaseTransform();
-                    EditorUtility.SetDirty(target);
-                }
-
-                GUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                GUI.color = new Color(1f, 1f, 1f, 0.85f);
+                EditorGUILayout.PropertyField(sp_basetr, new GUIContent(" Base Transform:", EditorGUIUtility.IconContent("Transform Icon").image));
+                EditorGUILayout.LabelField("(this)", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(37));
+                GUI.color = Color.white;
+                EditorGUILayout.EndHorizontal();
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(sp_basetr, new GUIContent(" Base Transform:", EditorGUIUtility.IconContent("Transform Icon").image));
             }
         }
 

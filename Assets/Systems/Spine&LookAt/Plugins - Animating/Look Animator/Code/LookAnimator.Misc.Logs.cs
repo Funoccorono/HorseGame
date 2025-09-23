@@ -14,7 +14,7 @@ namespace FIMSpace.FLook
         {
 #if UNITY_EDITOR
             if (LeadBone != null && BaseTransform != null) return;
-            if (!BaseTransform) { Debug.Log("[Look Animator] No Base Transform Defined in " + name + "!"); return; }
+            //if (!BaseTransform) { Debug.Log("[Look Animator] No Base Transform Defined in " + name + "!"); return; }
             if (!LeadBone) { Debug.Log("[Look Animator] No Lead Bone Defined in " + name + "!"); return; }
 #endif
         }

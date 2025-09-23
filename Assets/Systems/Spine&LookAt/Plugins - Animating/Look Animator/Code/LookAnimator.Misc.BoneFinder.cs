@@ -14,11 +14,11 @@ namespace FIMSpace.FLook
         {
             BaseTransform = transform;
 
-            if (!GetComponentInChildren<Animator>())
-            {
-                if (!GetComponentInChildren<Animation>())
-                    Debug.LogWarning(gameObject.name + " don't have animator. '" + name + "' is it root transform for your character?");
-            }
+            //if (!GetComponentInChildren<Animator>())
+            //{
+            //    if (!GetComponentInChildren<Animation>())
+            //        Debug.LogWarning(gameObject.name + " don't have animator. '" + name + "' is it root transform for your character?");
+            //}
         }
 
 
